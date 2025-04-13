@@ -4,215 +4,1297 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portico - Glassmorphic Form Builder</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/glassmorphism.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e88e5;
+            --secondary-color: #26a69a;
+            --accent-color: #9c27b0;
+            --warning-color: #ef5350;
+            --success-color: #4caf50;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --background-light: #f5f7fa;
+            --background-white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            height: 60px;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.7);
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .action-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .action-btn i {
+            color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notifications {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .app-content {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 60px);
+        }
+
+        /* Sidebars */
+        .sidebar {
+            width: 250px;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            overflow-y: auto;
+            height: calc(100vh - 60px);
+        }
+
+        .sidebar-header {
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .subsection-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+            background-color: var(--background-light);
+            border-radius: var(--border-radius);
+            padding: 0.25rem;
+        }
+
+        .category-tab {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            background: none;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color var(--transition-speed);
+        }
+
+        .category-tab.active {
+            background-color: var(--background-white);
+            box-shadow: var(--shadow-light);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1rem;
+        }
+
+        .form-element-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            background-color: var(--background-white);
+            margin-bottom: 0.5rem;
+            cursor: move;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .form-element-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .form-element-item i {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .browse-templates-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .browse-templates-btn:hover {
+            background-color: #1976d2;
+        }
+
+        /* Form Builder */
+        .form-builder {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: transparent;
+            height: calc(100vh - 60px);
+        }
+
+        .form-builder-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            outline: none;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            outline: none;
+        }
+
+        .form-fields-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            min-height: 50px;
+        }
+
+        .form-field {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            cursor: move;
+            position: relative;
+        }
+
+        .form-field:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .form-field.selected {
+            outline: 2px solid var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.8);
+            transition: border-color var(--transition-speed);
+        }
+
+        .field-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .drop-zone {
+            border: 2px dashed rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+            min-height: 120px;
+        }
+
+        .drop-zone-content {
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .drop-zone-content i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .drop-zone.drag-over {
+            background-color: rgba(30, 136, 229, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .drag-placeholder {
+            height: 10px;
+            background-color: var(--primary-color);
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .drag-indicator-top, .drag-indicator-bottom {
+            position: absolute;
+            height: 4px;
+            background-color: var(--primary-color);
+            left: 0;
+            right: 0;
+            display: none;
+            z-index: 10;
+        }
+
+        .drag-indicator-top {
+            top: -2px;
+        }
+
+        .drag-indicator-bottom {
+            bottom: -2px;
+        }
+
+        .form-field-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity var(--transition-speed);
+        }
+
+        .form-field:hover .form-field-actions {
+            opacity: 1;
+        }
+
+        .field-action-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background-color var(--transition-speed);
+        }
+
+        .field-action-btn:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .delete-action {
+            color: var(--warning-color);
+        }
+
+        /* Properties Sidebar */
+        .properties-tabs {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+            background-color: var(--background-light);
+            border-radius: var(--border-radius);
+            padding: 0.25rem;
+            overflow-x: auto;
+        }
+
+        .property-tab {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            background: none;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            white-space: nowrap;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color var(--transition-speed);
+        }
+
+        .property-tab.active {
+            background-color: var(--background-white);
+            box-shadow: var(--shadow-light);
+        }
+
+        .property-section {
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .property-section.active {
+            display: block;
+        }
+
+        .property-group {
+            margin-bottom: 1rem;
+        }
+
+        .property-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .property-group input, .property-group select, .property-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+        }
+
+        .property-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .property-col {
+            flex: 1;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor;
+        }
+
+        .color-option.selected {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px currentColor;
+        }
+
+        .alignment-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .alignment-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            background-color: var(--background-white);
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .alignment-btn:hover {
+            background-color: var(--background-light);
+        }
+
+        .alignment-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .add-logic-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--background-white);
+            color: var(--primary-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            border: 1px dashed var(--primary-color);
+        }
+
+        .add-logic-btn:hover {
+            background-color: rgba(30, 136, 229, 0.1);
+        }
+
+        .validation-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed), visibility var(--transition-speed);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+            transition: transform var(--transition-speed);
+            transform: translateY(20px);
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .modal-btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .modal-btn-secondary {
+            background-color: var(--background-light);
+            border: none;
+            color: var(--text-primary);
+        }
+
+        .modal-btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .modal-btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background-color: #1976d2;
+        }
+
+        /* Preview Modal */
+        .preview-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        /* Share Modal */
+        .share-link {
+            background-color: var(--background-light);
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .share-link input {
+            flex: 1;
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .share-link button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .share-link button:hover {
+            background-color: #1976d2;
+        }
+
+        .share-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .share-option {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            background-color: var(--background-light);
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            text-align: center;
+        }
+
+        .share-option:hover {
+            background-color: #e0e0e0;
+        }
+
+        .share-option i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Template Browser */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .template-card {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            cursor: pointer;
+            background-color: white;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .template-img {
+            height: 150px;
+            background-color: var(--background-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 2rem;
+        }
+
+        .template-info {
+            padding: 1rem;
+        }
+
+        .template-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .template-description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Logic Builder */
+        .logic-builder {
+            margin-top: 1rem;
+            width: 100%;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .logic-condition {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .logic-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .logic-select {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+        }
+
+        .logic-action-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .logic-action-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .logic-delete-btn {
+            color: var(--warning-color);
+        }
+
+        .add-condition-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background-color: var(--background-light);
+            border: 1px dashed rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: background-color var(--transition-speed);
+        }
+
+        .add-condition-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .toast {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateX(120%);
+            transition: transform 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        .toast.active {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+
+        .toast-success .toast-icon {
+            color: var(--success-color);
+        }
+
+        .toast-error .toast-icon {
+            color: var(--warning-color);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .toast-message {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .app-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 300px;
+            }
+
+            .form-builder {
+                padding: 1rem;
+            }
+        }
+
+        /* Custom styling for glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        body {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            animation: gradientAnimation 15s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .form-field {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .form-field:hover {
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        }
+
+        .field-input {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1);
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 16px rgba(31, 38, 135, 0.15);
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        }
+
+        .form-element-item {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(31, 38, 135, 0.05);
+        }
+
+        .form-element-item:hover {
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 8px 16px rgba(31, 38, 135, 0.1);
+        }
+
+        .property-section {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+    </style>
 </head>
 <body>
     <div class="app-container">
         <!-- Header -->
-        <header class="header">
+        <header class="app-header">
             <div class="logo">
-                <i class="fas fa-layer-group"></i>
+                <i class="fas fa-layer-group logo-icon"></i>
                 <h1>Portico</h1>
             </div>
             <div class="header-actions">
-                <button id="saveBtn" class="btn">
+                <button id="saveBtn" class="action-btn">
                     <i class="fas fa-save"></i> Save
                 </button>
-                <button id="previewBtn" class="btn">
+                <button id="previewBtn" class="action-btn">
                     <i class="fas fa-eye"></i> Preview
                 </button>
-                <button id="shareBtn" class="btn">
+                <button id="shareBtn" class="action-btn">
                     <i class="fas fa-share-alt"></i> Share
                 </button>
             </div>
-            <div class="user-actions">
-                <i class="fas fa-bell notification-icon"></i>
-                <div class="user-avatar">P</div>
+            <div class="user-info">
+                <div class="notifications">
+                    <i class="far fa-bell"></i>
+                </div>
+                <div class="user-avatar">
+                    <span>P</span>
+                </div>
             </div>
         </header>
 
         <!-- Main Content -->
-        <div class="main-content">
-            <!-- Left Sidebar - Form Fields -->
-            <aside class="sidebar left-sidebar">
-                <h2 class="sidebar-title">FORM FIELDS</h2>
-                <div class="category-tabs">
-                    <button class="category-tab active" data-category="all">All</button>
-                    <button class="category-tab" data-category="basic">Basic</button>
-                    <button class="category-tab" data-category="advanced">Advanced</button>
-                    <button class="category-tab" data-category="layout">Layout</button>
+        <main class="app-content">
+            <!-- Left Sidebar - Form Elements -->
+            <aside class="sidebar form-elements-sidebar">
+                <div class="sidebar-section">
+                    <h2 class="section-title">FORM FIELDS</h2>
+                    <div class="category-tabs">
+                        <button class="category-tab active" data-category="all">All</button>
+                        <button class="category-tab" data-category="basic">Basic</button>
+                        <button class="category-tab" data-category="advanced">Advanced</button>
+                        <button class="category-tab" data-category="layout">Layout</button>
+                    </div>
                 </div>
 
-                <div class="field-section">
-                    <h3 class="section-heading">Text Fields</h3>
-                    <div class="form-element" draggable="true" data-type="text-input" data-category="basic">
+                <div class="sidebar-section" data-category="basic">
+                    <h3 class="subsection-title">Text Fields</h3>
+                    <div class="form-element-item" draggable="true" data-type="text" data-category="basic">
                         <i class="fas fa-font"></i>
                         <span>Text Input</span>
                     </div>
-                    <div class="form-element" draggable="true" data-type="text-area" data-category="basic">
+                    <div class="form-element-item" draggable="true" data-type="textarea" data-category="basic">
                         <i class="fas fa-align-left"></i>
                         <span>Text Area</span>
                     </div>
-                    <div class="form-element" draggable="true" data-type="email" data-category="basic">
+                    <div class="form-element-item" draggable="true" data-type="email" data-category="basic">
                         <i class="fas fa-envelope"></i>
                         <span>Email</span>
                     </div>
-                    <div class="form-element" draggable="true" data-type="phone" data-category="basic">
+                    <div class="form-element-item" draggable="true" data-type="phone" data-category="basic">
                         <i class="fas fa-phone"></i>
                         <span>Phone</span>
                     </div>
                 </div>
 
-                <div class="field-section">
-                    <h3 class="section-heading">Choice Fields</h3>
-                    <div class="form-element" draggable="true" data-type="checkbox" data-category="basic">
+                <div class="sidebar-section" data-category="basic">
+                    <h3 class="subsection-title">Choice Fields</h3>
+                    <div class="form-element-item" draggable="true" data-type="checkbox" data-category="basic">
                         <i class="fas fa-check-square"></i>
                         <span>Checkbox</span>
                     </div>
-                    <div class="form-element" draggable="true" data-type="radio-button" data-category="basic">
+                    <div class="form-element-item" draggable="true" data-type="radio" data-category="basic">
                         <i class="fas fa-dot-circle"></i>
                         <span>Radio Button</span>
                     </div>
-                    <div class="form-element" draggable="true" data-type="dropdown" data-category="basic">
+                    <div class="form-element-item" draggable="true" data-type="dropdown" data-category="basic">
                         <i class="fas fa-caret-down"></i>
                         <span>Dropdown</span>
                     </div>
-                    <div class="form-element" draggable="true" data-type="toggle" data-category="basic">
+                    <div class="form-element-item" draggable="true" data-type="toggle" data-category="basic">
                         <i class="fas fa-toggle-on"></i>
                         <span>Toggle</span>
                     </div>
                 </div>
 
-                <div class="field-section">
-                    <h3 class="section-heading">Advanced Fields</h3>
-                    <div class="form-element" draggable="true" data-type="date" data-category="advanced">
+                <div class="sidebar-section" data-category="advanced">
+                    <h3 class="subsection-title">Advanced Fields</h3>
+                    <div class="form-element-item" draggable="true" data-type="date" data-category="advanced">
                         <i class="fas fa-calendar-alt"></i>
                         <span>Date</span>
                     </div>
-                    <div class="form-element" draggable="true" data-type="file-upload" data-category="advanced">
+                    <div class="form-element-item" draggable="true" data-type="time" data-category="advanced">
+                        <i class="fas fa-clock"></i>
+                        <span>Time</span>
+                    </div>
+                    <div class="form-element-item" draggable="true" data-type="file" data-category="advanced">
                         <i class="fas fa-file-upload"></i>
                         <span>File Upload</span>
                     </div>
+                    <div class="form-element-item" draggable="true" data-type="rating" data-category="advanced">
+                        <i class="fas fa-star"></i>
+                        <span>Rating</span>
+                    </div>
                 </div>
 
-                <div class="field-section">
-                    <h3 class="section-heading">Templates</h3>
-                    <button id="browseTemplatesBtn" class="templates-btn">
+                <div class="sidebar-section" data-category="layout">
+                    <h3 class="subsection-title">Layout Elements</h3>
+                    <div class="form-element-item" draggable="true" data-type="heading" data-category="layout">
+                        <i class="fas fa-heading"></i>
+                        <span>Heading</span>
+                    </div>
+                    <div class="form-element-item" draggable="true" data-type="divider" data-category="layout">
+                        <i class="fas fa-minus"></i>
+                        <span>Divider</span>
+                    </div>
+                    <div class="form-element-item" draggable="true" data-type="spacer" data-category="layout">
+                        <i class="fas fa-arrows-alt-v"></i>
+                        <span>Spacer</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="subsection-title">Templates</h3>
+                    <button class="browse-templates-btn" id="templateBtn">
                         <i class="fas fa-th-large"></i>
                         Browse Templates
                     </button>
                 </div>
             </aside>
 
-            <!-- Form Builder Area -->
-            <main class="form-builder">
-                <div class="form-container glass-card">
-                    <div class="form-header" contenteditable="true">
-                        <h2 id="formTitle">Untitled Form</h2>
-                        <p id="formDescription">This is a description of your form. Click to edit.</p>
+            <!-- Main Form Builder Area -->
+            <section class="form-builder">
+                <div class="form-builder-container glass-card">
+                    <div class="form-header">
+                        <h2 contenteditable="true">Untitled Form</h2>
+                        <p contenteditable="true">This is a description of your form. Click to edit.</p>
                     </div>
 
-                    <div id="formFields" class="form-fields-container">
-                        <!-- Form fields will be added here dynamically -->
-                        <div class="form-field" data-field-id="field-1" draggable="true">
-                            <div class="field-header">
-                                <label>Full Name</label>
+                    <div class="form-fields-container" id="formFieldsContainer">
+                        <!-- Text Input Field -->
+                        <div class="form-field" data-type="text" draggable="true">
+                            <div class="form-field-actions">
+                                <button class="field-action-btn duplicate-action">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="field-action-btn delete-action">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
+                            <label class="field-label">Full Name</label>
                             <input type="text" placeholder="John Doe" class="field-input">
                         </div>
 
-                        <div class="form-field" data-field-id="field-2" draggable="true">
-                            <div class="field-header">
-                                <label>Email Address</label>
+                        <!-- Email Field -->
+                        <div class="form-field" data-type="email" draggable="true">
+                            <div class="form-field-actions">
+                                <button class="field-action-btn duplicate-action">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="field-action-btn delete-action">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
+                            <label class="field-label">Email Address</label>
                             <input type="email" placeholder="john@example.com" class="field-input">
                         </div>
 
-                        <div class="form-field" data-field-id="field-3" draggable="true">
-                            <div class="field-header">
-                                <label>Phone Number</label>
+                        <!-- Phone Field -->
+                        <div class="form-field" data-type="phone" draggable="true">
+                            <div class="form-field-actions">
+                                <button class="field-action-btn duplicate-action">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="field-action-btn delete-action">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
+                            <label class="field-label">Phone Number</label>
                             <input type="tel" placeholder="+1 (555) 123-4567" class="field-input">
                         </div>
 
-                        <div class="form-field" data-field-id="field-4" draggable="true">
-                            <div class="field-header">
-                                <label>Date of Birth</label>
+                        <!-- Date Field -->
+                        <div class="form-field" data-type="date" draggable="true">
+                            <div class="form-field-actions">
+                                <button class="field-action-btn duplicate-action">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="field-action-btn delete-action">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
+                            <label class="field-label">Date of Birth</label>
                             <input type="date" class="field-input">
                         </div>
 
-                        <div class="form-field" data-field-id="field-5" draggable="true">
-                            <div class="field-header">
-                                <label>How did you hear about us?</label>
+                        <!-- Dropdown Field -->
+                        <div class="form-field" data-type="dropdown" draggable="true">
+                            <div class="form-field-actions">
+                                <button class="field-action-btn duplicate-action">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="field-action-btn delete-action">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
+                            <label class="field-label">How did you hear about us?</label>
                             <select class="field-input">
-                                <option value="" disabled selected>Select an option</option>
+                                <option value="" disabled selected>Please select an option</option>
                                 <option value="search">Search Engine</option>
                                 <option value="social">Social Media</option>
-                                <option value="friend">Friend</option>
+                                <option value="friend">Friend or Colleague</option>
                                 <option value="other">Other</option>
                             </select>
                         </div>
 
-                        <div class="form-field" data-field-id="field-6" draggable="true">
-                            <div class="field-header">
-                                <label>Message</label>
+                        <!-- Textarea Field -->
+                        <div class="form-field" data-type="textarea" draggable="true">
+                            <div class="form-field-actions">
+                                <button class="field-action-btn duplicate-action">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="field-action-btn delete-action">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
-                            <textarea class="field-input" placeholder="Tell us about your project..."></textarea>
+                            <label class="field-label">Message</label>
+                            <textarea class="field-input" rows="4" placeholder="Tell us about your project..."></textarea>
                         </div>
 
-                        <div class="form-field" data-field-id="field-7" draggable="true">
+                        <!-- Checkbox Field -->
+                        <div class="form-field" data-type="checkbox" draggable="true">
+                            <div class="form-field-actions">
+                                <button class="field-action-btn duplicate-action">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="field-action-btn delete-action">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                             <div class="checkbox-container">
-                                <input type="checkbox" id="termsCheckbox">
-                                <label for="termsCheckbox">I agree to the Terms of Service and Privacy Policy</label>
+                                <input type="checkbox" id="terms">
+                                <label for="terms">I agree to the Terms of Service and Privacy Policy</label>
                             </div>
                         </div>
                     </div>
 
-                    <div id="dropZone" class="drop-zone">
+                    <!-- Drop Zone -->
+                    <div class="drop-zone" id="dropZone">
                         <div class="drop-zone-content">
                             <i class="fas fa-plus-circle"></i>
-                            <span>Drag and drop elements here</span>
+                            <p>Drag and drop elements here</p>
                         </div>
                     </div>
                 </div>
-            </main>
+            </section>
 
-            <!-- Right Sidebar - Properties -->
-            <aside class="sidebar right-sidebar">
-                <h2 class="sidebar-title">Element Properties</h2>
-                
-                <div class="property-tabs">
+            <!-- Right Sidebar - Element Properties -->
+            <aside class="sidebar element-properties-sidebar">
+                <div class="sidebar-header">
+                    <h2 class="section-title">Element Properties</h2>
+                </div>
+
+                <div class="properties-tabs">
                     <button class="property-tab active" data-tab="field-label">Field Label</button>
                     <button class="property-tab" data-tab="description">Description</button>
                     <button class="property-tab" data-tab="styling">Styling</button>
                 </div>
 
-                <div id="fieldLabelPanel" class="property-panel active">
+                <div class="property-section active" id="fieldLabelSection">
                     <div class="property-group">
                         <label>Field Label</label>
                         <input type="text" id="fieldLabelInput" placeholder="Enter field label">
                     </div>
                 </div>
 
-                <div id="descriptionPanel" class="property-panel">
+                <div class="property-section" id="descriptionSection">
                     <div class="property-group">
                         <label>Description</label>
-                        <textarea id="descriptionInput" placeholder="Enter field description"></textarea>
+                        <textarea id="descriptionInput" rows="4" placeholder="Enter field description"></textarea>
                     </div>
                 </div>
 
-                <div id="stylingPanel" class="property-panel">
-                    <div class="style-options">
-                        <div class="style-row">
-                            <div class="style-column">
+                <div class="property-section" id="stylingSection">
+                    <div class="property-group">
+                        <div class="property-row">
+                            <div class="property-col">
                                 <label>Font</label>
                                 <select id="fontSelect">
                                     <option value="Inter">Inter</option>
+                                    <option value="Arial">Arial</option>
                                     <option value="Roboto">Roboto</option>
                                     <option value="Open Sans">Open Sans</option>
                                     <option value="Montserrat">Montserrat</option>
@@ -220,7 +1302,7 @@
                                     <option value="Poppins">Poppins</option>
                                 </select>
                             </div>
-                            <div class="style-column">
+                            <div class="property-col">
                                 <label>Size</label>
                                 <select id="sizeSelect">
                                     <option value="small">Small</option>
@@ -235,12 +1317,12 @@
                     <div class="property-group">
                         <label>Color</label>
                         <div class="color-options">
-                            <div class="color-option" data-color="#1e88e5" style="background-color: #1e88e5;"></div>
-                            <div class="color-option" data-color="#9c27b0" style="background-color: #9c27b0;"></div>
-                            <div class="color-option" data-color="#e91e63" style="background-color: #e91e63;"></div>
-                            <div class="color-option" data-color="#ff9800" style="background-color: #ff9800;"></div>
-                            <div class="color-option" data-color="#607d8b" style="background-color: #607d8b;"></div>
-                            <div class="color-option add-color" data-color="custom">+</div>
+                            <div class="color-option" style="background-color: #1e88e5;" data-color="#1e88e5"></div>
+                            <div class="color-option" style="background-color: #26a69a;" data-color="#26a69a"></div>
+                            <div class="color-option" style="background-color: #ef5350;" data-color="#ef5350"></div>
+                            <div class="color-option" style="background-color: #9c27b0;" data-color="#9c27b0"></div>
+                            <div class="color-option" style="background-color: #ff9800;" data-color="#ff9800"></div>
+                            <div class="color-option" style="background-color: #607d8b;" data-color="#607d8b"></div>
                         </div>
                     </div>
 
@@ -260,171 +1342,1794 @@
                     </div>
                 </div>
 
-                <div class="property-section">
-                    <h3 class="section-heading">Logic & Rules</h3>
-                    <button id="addLogicBtn" class="add-logic-btn">
+                <div class="sidebar-section">
+                    <h3 class="subsection-title">Logic & Rules</h3>
+                    <button class="add-logic-btn" id="addLogicBtn">
                         <i class="fas fa-plus"></i> Add Conditional Logic
                     </button>
                 </div>
 
-                <div class="property-section">
-                    <h3 class="section-heading">Validation</h3>
+                <div class="sidebar-section">
+                    <h3 class="subsection-title">Validation</h3>
                     <div class="validation-options">
-                        <div class="checkbox-option">
+                        <div class="checkbox-container">
                             <input type="checkbox" id="requiredField">
                             <label for="requiredField">Required Field</label>
                         </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="showErrorMessage">
-                            <label for="showErrorMessage">Show Error Message</label>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="showErrorMsg">
+                            <label for="showErrorMsg">Show Error Message</label>
                         </div>
                     </div>
                 </div>
             </aside>
-        </div>
-    </div>
+        </main>
 
-    <!-- Modals -->
-    <!-- Preview Modal -->
-    <div id="previewModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Form Preview</h2>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div id="previewForm" class="preview-form">
-                    <!-- Preview content will be generated here -->
+        <!-- Modal Templates -->
+        <!-- Preview Modal -->
+        <div class="modal-overlay" id="previewModal">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3>Form Preview</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="preview-container" id="previewContainer">
+                        <!-- Preview content will be generated here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn modal-btn-secondary modal-close">Close</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Share Modal -->
-    <div id="shareModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Share Form</h2>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p>Share your form with others by copying the link below:</p>
-                <div class="share-link-container">
-                    <input type="text" id="shareLink" value="https://portico.app/forms/abc123" readonly>
-                    <button id="copyLinkBtn" class="copy-btn">
-                        <i class="fas fa-copy"></i> Copy
-                    </button>
+        <!-- Share Modal -->
+        <div class="modal-overlay" id="shareModal">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3>Share Form</h3>
+                    <button class="modal-close">&times;</button>
                 </div>
-                <div class="share-options">
-                    <h3>Sharing Options</h3>
-                    <div class="option">
-                        <input type="radio" id="sharePublic" name="shareOption" checked>
-                        <label for="sharePublic">Public - Anyone with the link can view and submit</label>
+                <div class="modal-body">
+                    <p>Share your form with others by copying the link below:</p>
+                    <div class="share-link">
+                        <input type="text" id="shareLink" value="https://portico.app/form/xyz123" readonly>
+                        <button id="copyLinkBtn">Copy</button>
                     </div>
-                    <div class="option">
-                        <input type="radio" id="sharePrivate" name="shareOption">
-                        <label for="sharePrivate">Private - Only specific people can access</label>
+                    <div class="share-options">
+                        <div class="share-option" data-platform="email">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email</span>
+                        </div>
+                        <div class="share-option" data-platform="twitter">
+                            <i class="fab fa-twitter"></i>
+                            <span>Twitter</span>
+                        </div>
+                        <div class="share-option" data-platform="facebook">
+                            <i class="fab fa-facebook"></i>
+                            <span>Facebook</span>
+                        </div>
+                        <div class="share-option" data-platform="linkedin">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Templates Modal -->
-    <div id="templatesModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Form Templates</h2>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="templates-grid">
-                    <div class="template-card" data-template="contact">
-                        <h3>Contact Form</h3>
-                        <p>Basic contact form with name, email, and message fields.</p>
-                    </div>
-                    <div class="template-card" data-template="registration">
-                        <h3>Registration Form</h3>
-                        <p>User registration with account details and preferences.</p>
-                    </div>
-                    <div class="template-card" data-template="survey">
-                        <h3>Survey Form</h3>
-                        <p>Customer feedback survey with multiple choice questions.</p>
-                    </div>
-                    <div class="template-card" data-template="event">
-                        <h3>Event Registration</h3>
-                        <p>Event sign-up form with scheduling and preferences.</p>
-                    </div>
+                <div class="modal-footer">
+                    <button class="modal-btn modal-btn-secondary modal-close">Close</button>
                 </div>
             </div>
         </div>
+
+        <!-- Templates Modal -->
+        <div class="modal-overlay" id="templatesModal">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3>Form Templates</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="template-grid">
+                        <div class="template-card" data-template="contact">
+                            <div class="template-img">
+                                <i class="fas fa-address-card"></i>
+                            </div>
+                            <div class="template-info">
+                                <h4 class="template-title">Contact Form</h4>
+                                <p class="template-description">Basic contact form with name, email, and message fields.</p>
+                            </div>
+                        </div>
+                        <div class="template-card" data-template="registration">
+                            <div class="template-img">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="template-info">
+                                <h4 class="template-title">Registration Form</h4>
+                                <p class="template-description">User registration with account details and preferences.</p>
+                            </div>
+                        </div>
+                        <div class="template-card" data-template="survey">
+                            <div class="template-img">
+                                <i class="fas fa-poll"></i>
+                            </div>
+                            <div class="template-info">
+                                <h4 class="template-title">Survey Form</h4>
+                                <p class="template-description">Customer feedback survey with multiple choice questions.</p>
+                            </div>
+                        </div>
+                        <div class="template-card" data-template="event">
+                            <div class="template-img">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="template-info">
+                                <h4 class="template-title">Event Registration</h4>
+                                <p class="template-description">Event sign-up form with scheduling and preferences.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn modal-btn-secondary modal-close">Cancel</button>
+                    <button class="modal-btn modal-btn-primary" id="useTemplateBtn">Use Template</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logic Builder Modal -->
+        <div class="modal-overlay" id="logicModal">
+            <div class="modal-container" style="max-width: 700px; width: 90%;">
+                <div class="modal-header">
+                    <h3>Conditional Logic</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body" style="padding: 1.5rem;">
+                    <p>Set up rules to show or hide this field based on conditions:</p>
+                    <div class="logic-builder" id="logicBuilder">
+                        <div class="logic-condition">
+                            <div class="logic-row">
+                                <span>If</span>
+                                <select class="logic-select field-select">
+                                    <option value="">Select a field</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                                <select class="logic-select operator-select">
+                                    <option value="equals">equals</option>
+                                    <option value="not_equals">does not equal</option>
+                                    <option value="contains">contains</option>
+                                    <option value="not_contains">does not contain</option>
+                                    <option value="starts_with">starts with</option>
+                                    <option value="ends_with">ends with</option>
+                                    <option value="is_empty">is empty</option>
+                                    <option value="is_not_empty">is not empty</option>
+                                </select>
+                                <input type="text" class="logic-select value-input" placeholder="Value">
+                            </div>
+                            <div class="logic-action-row">
+                                <button class="logic-action-btn logic-delete-btn">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                                <div>
+                                    <button class="logic-action-btn logic-and-btn">
+                                        <i class="fas fa-plus"></i> Add AND Condition
+                                    </button>
+                                    <button class="logic-action-btn logic-or-btn">
+                                        <i class="fas fa-plus"></i> Add OR Condition
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="add-condition-btn" id="addConditionBtn">
+                            <i class="fas fa-plus"></i> Add Condition Group
+                        </button>
+                    </div>
+                    <div class="property-group" style="margin-top: 1.5rem;">
+                        <label>When conditions are met:</label>
+                        <select id="logicActionSelect" style="width: 100%; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid rgba(0,0,0,0.1); margin-top: 0.5rem;">
+                            <option value="show">Show this field</option>
+                            <option value="hide">Hide this field</option>
+                            <option value="require">Make this field required</option>
+                            <option value="not_require">Make this field not required</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn modal-btn-secondary modal-close">Cancel</button>
+                    <button class="modal-btn modal-btn-primary" id="saveLogicBtn">Save Rules</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast container -->
+        <div class="toast-container" id="toastContainer"></div>
     </div>
 
-    <!-- Logic Modal -->
-    <div id="logicModal" class="modal">
-        <div class="modal-content logic-modal-content">
-            <div class="modal-header">
-                <h2>Conditional Logic</h2>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p>Set up rules to show or hide this field based on conditions:</p>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Global variables
+            let selectedField = null;
+            let draggedItem = null;
+            let dragSourceElement = null;
+            let dragOverElement = null;
+            let currentDragPosition = null;
+            const formFieldsContainer = document.getElementById('formFieldsContainer');
+            const dropZone = document.getElementById('dropZone');
+
+            // Form data structure
+            const formData = {
+                title: 'Untitled Form',
+                description: 'This is a description of your form. Click to edit.',
+                fields: []
+            };
+
+            // Initialize the application
+            initApp();
+
+            function initApp() {
+                initDragAndDrop();
+                initPropertyPanel();
+                initFieldEvents();
+                initModalEvents();
+                initCategoryTabs();
+                updateFormData();
+            }
+
+            // Filter functionality for the left sidebar
+            function initCategoryTabs() {
+                const categoryTabs = document.querySelectorAll('.category-tab');
+                const formElements = document.querySelectorAll('.form-element-item');
+                const sidebarSections = document.querySelectorAll('.sidebar-section[data-category]');
+
+                categoryTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        // Remove active class from all tabs
+                        categoryTabs.forEach(t => t.classList.remove('active'));
+                        
+                        // Add active class to clicked tab
+                        tab.classList.add('active');
+                        
+                        const category = tab.getAttribute('data-category');
+                        
+                        if (category === 'all') {
+                            // Show all elements and sections
+                            formElements.forEach(el => el.style.display = 'flex');
+                            sidebarSections.forEach(section => section.style.display = 'block');
+                        } else {
+                            // Show only matching elements
+                            formElements.forEach(el => {
+                                if (el.getAttribute('data-category') === category) {
+                                    el.style.display = 'flex';
+                                } else {
+                                    el.style.display = 'none';
+                                }
+                            });
+                            
+                            // Show only matching sections
+                            sidebarSections.forEach(section => {
+                                if (section.getAttribute('data-category') === category) {
+                                    section.style.display = 'block';
+                                } else {
+                                    section.style.display = 'none';
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+
+            // Initialize Drag and Drop functionality
+            function initDragAndDrop() {
+                // Get all draggable elements
+                const draggableElements = document.querySelectorAll('[draggable="true"]');
                 
-                <div class="logic-section">
-                    <h3>When conditions are met:</h3>
-                    <select id="logicAction">
-                        <option value="show">Show this field</option>
-                        <option value="hide">Hide this field</option>
-                        <option value="require">Make this field required</option>
-                    </select>
-                </div>
+                // Add event listeners to draggable elements from sidebar
+                document.querySelectorAll('.form-element-item[draggable="true"]').forEach(item => {
+                    item.addEventListener('dragstart', handleDragStart);
+                    item.addEventListener('dragend', handleDragEnd);
+                });
                 
-                <div class="logic-conditions">
-                    <div class="logic-condition">
-                        <select class="condition-field">
+                // Add event listeners to existing form fields
+                document.querySelectorAll('.form-field[draggable="true"]').forEach(field => {
+                    field.addEventListener('dragstart', handleDragStart);
+                    field.addEventListener('dragend', handleDragEnd);
+                });
+                
+                // Add event listeners to the form fields container and drop zone
+                formFieldsContainer.addEventListener('dragover', handleDragOver);
+                formFieldsContainer.addEventListener('dragenter', handleDragEnter);
+                formFieldsContainer.addEventListener('dragleave', handleDragLeave);
+                formFieldsContainer.addEventListener('drop', handleDrop);
+                
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('dragenter', handleDragEnter);
+                dropZone.addEventListener('dragleave', handleDragLeave);
+                dropZone.addEventListener('drop', handleDrop);
+            }
+
+            // Drag and Drop Event Handlers
+            function handleDragStart(e) {
+                draggedItem = this;
+                dragSourceElement = this;
+                
+                // Set data transfer
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.outerHTML);
+                
+                // Add dragging class
+                setTimeout(() => {
+                    this.classList.add('dragging');
+                }, 0);
+            }
+
+            function handleDragEnd(e) {
+                // Remove dragging class
+                this.classList.remove('dragging');
+                
+                // Reset drag variables
+                draggedItem = null;
+                dragSourceElement = null;
+                
+                // Remove all drag indicators
+                document.querySelectorAll('.drag-indicator-top, .drag-indicator-bottom').forEach(indicator => {
+                    indicator.style.display = 'none';
+                });
+                
+                dropZone.classList.remove('drag-over');
+            }
+
+            function handleDragOver(e) {
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                
+                e.dataTransfer.dropEffect = 'move';
+                
+                // If dragging over the drop zone
+                if (this === dropZone) {
+                    this.classList.add('drag-over');
+                    return false;
+                }
+                
+                // If dragging over the form fields container
+                if (this === formFieldsContainer) {
+                    // Find the closest form field
+                    const formField = getClosestFormField(e);
+                    
+                    if (formField) {
+                        // Determine if we should place before or after the form field
+                        const rect = formField.getBoundingClientRect();
+                        const midpoint = rect.top + rect.height / 2;
+                        
+                        // Create or get the indicators
+                        let topIndicator = formField.querySelector('.drag-indicator-top');
+                        let bottomIndicator = formField.querySelector('.drag-indicator-bottom');
+                        
+                        if (!topIndicator) {
+                            topIndicator = document.createElement('div');
+                            topIndicator.className = 'drag-indicator-top';
+                            formField.appendChild(topIndicator);
+                        }
+                        
+                        if (!bottomIndicator) {
+                            bottomIndicator = document.createElement('div');
+                            bottomIndicator.className = 'drag-indicator-bottom';
+                            formField.appendChild(bottomIndicator);
+                        }
+                        
+                        // Show the appropriate indicator
+                        if (e.clientY < midpoint) {
+                            topIndicator.style.display = 'block';
+                            bottomIndicator.style.display = 'none';
+                            currentDragPosition = 'before';
+                            dragOverElement = formField;
+                        } else {
+                            topIndicator.style.display = 'none';
+                            bottomIndicator.style.display = 'block';
+                            currentDragPosition = 'after';
+                            dragOverElement = formField;
+                        }
+                    }
+                }
+                
+                return false;
+            }
+
+            function handleDragEnter(e) {
+                // If entering the drop zone
+                if (this === dropZone) {
+                    this.classList.add('drag-over');
+                }
+            }
+
+            function handleDragLeave(e) {
+                // If leaving the drop zone
+                if (this === dropZone) {
+                    this.classList.remove('drag-over');
+                }
+            }
+
+            function handleDrop(e) {
+                if (e.stopPropagation) {
+                    e.stopPropagation();
+                }
+                
+                // If dropping on the drop zone
+                if (this === dropZone) {
+                    this.classList.remove('drag-over');
+                    
+                    // If dragging from the sidebar
+                    if (dragSourceElement.classList.contains('form-element-item')) {
+                        const fieldType = dragSourceElement.getAttribute('data-type');
+                        const newField = createFormField(fieldType);
+                        
+                        // Add the new field to the form
+                        formFieldsContainer.appendChild(newField);
+                        
+                        // Initialize the new field
+                        initFieldEvents(newField);
+                    }
+                    
+                    // If reordering from the form
+                    else if (dragSourceElement.classList.contains('form-field')) {
+                        // Move the field to the end of the form
+                        formFieldsContainer.appendChild(dragSourceElement);
+                    }
+                }
+                
+                // If dropping on the form fields container
+                else if (this === formFieldsContainer || this.closest('.form-fields-container')) {
+                    // If dropping on a specific position
+                    if (dragOverElement && currentDragPosition) {
+                        // If dragging from the sidebar
+                        if (dragSourceElement.classList.contains('form-element-item')) {
+                            const fieldType = dragSourceElement.getAttribute('data-type');
+                            const newField = createFormField(fieldType);
+                            
+                            // Add the new field to the form at the specific position
+                            if (currentDragPosition === 'before') {
+                                formFieldsContainer.insertBefore(newField, dragOverElement);
+                            } else {
+                                formFieldsContainer.insertBefore(newField, dragOverElement.nextSibling);
+                            }
+                            
+                            // Initialize the new field
+                            initFieldEvents(newField);
+                        }
+                        
+                        // If reordering from the form
+                        else if (dragSourceElement.classList.contains('form-field')) {
+                            // Move the field to the specific position
+                            if (currentDragPosition === 'before') {
+                                formFieldsContainer.insertBefore(dragSourceElement, dragOverElement);
+                            } else {
+                                formFieldsContainer.insertBefore(dragSourceElement, dragOverElement.nextSibling);
+                            }
+                        }
+                        
+                        // Remove all drag indicators
+                        document.querySelectorAll('.drag-indicator-top, .drag-indicator-bottom').forEach(indicator => {
+                            indicator.style.display = 'none';
+                        });
+                    }
+                }
+                
+                // Reset drag variables
+                draggedItem = null;
+                dragSourceElement = null;
+                dragOverElement = null;
+                currentDragPosition = null;
+                
+                // Update form data
+                updateFormData();
+                
+                return false;
+            }
+
+            // Helper functions for Drag and Drop
+            function getClosestFormField(e) {
+                const formFields = Array.from(formFieldsContainer.querySelectorAll('.form-field'));
+                
+                for (let i = 0; i < formFields.length; i++) {
+                    const field = formFields[i];
+                    const rect = field.getBoundingClientRect();
+                    
+                    if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                        return field;
+                    }
+                }
+                
+                return formFields[formFields.length - 1] || null;
+            }
+
+            function createFormField(fieldType) {
+                const field = document.createElement('div');
+                field.className = 'form-field';
+                field.setAttribute('data-type', fieldType);
+                field.setAttribute('draggable', 'true');
+                
+                // Add field actions
+                const fieldActions = document.createElement('div');
+                fieldActions.className = 'form-field-actions';
+                
+                const duplicateBtn = document.createElement('button');
+                duplicateBtn.className = 'field-action-btn duplicate-action';
+                duplicateBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'field-action-btn delete-action';
+                deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                
+                fieldActions.appendChild(duplicateBtn);
+                fieldActions.appendChild(deleteBtn);
+                field.appendChild(fieldActions);
+                
+                // Add label and inputs based on field type
+                switch (fieldType) {
+                    case 'text':
+                        field.innerHTML += `
+                            <label class="field-label">Text Field</label>
+                            <input type="text" placeholder="Enter text" class="field-input">
+                        `;
+                        break;
+                    case 'email':
+                        field.innerHTML += `
+                            <label class="field-label">Email Address</label>
+                            <input type="email" placeholder="user@example.com" class="field-input">
+                        `;
+                        break;
+                    case 'phone':
+                        field.innerHTML += `
+                            <label class="field-label">Phone Number</label>
+                            <input type="tel" placeholder="+1 (555) 123-4567" class="field-input">
+                        `;
+                        break;
+                    case 'textarea':
+                        field.innerHTML += `
+                            <label class="field-label">Message</label>
+                            <textarea class="field-input" rows="4" placeholder="Enter your message"></textarea>
+                        `;
+                        break;
+                    case 'checkbox':
+                        field.innerHTML += `
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="checkbox_${Date.now()}">
+                                <label for="checkbox_${Date.now()}">Checkbox Option</label>
+                            </div>
+                        `;
+                        break;
+                    case 'radio':
+                        field.innerHTML += `
+                            <label class="field-label">Radio Options</label>
+                            <div class="checkbox-container">
+                                <input type="radio" name="radio_${Date.now()}" id="radio1_${Date.now()}">
+                                <label for="radio1_${Date.now()}">Option 1</label>
+                            </div>
+                            <div class="checkbox-container">
+                                <input type="radio" name="radio_${Date.now()}" id="radio2_${Date.now()}">
+                                <label for="radio2_${Date.now()}">Option 2</label>
+                            </div>
+                        `;
+                        break;
+                    case 'dropdown':
+                        field.innerHTML += `
+                            <label class="field-label">Dropdown</label>
+                            <select class="field-input">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                                <option value="option3">Option 3</option>
+                            </select>
+                        `;
+                        break;
+                    case 'date':
+                        field.innerHTML += `
+                            <label class="field-label">Date</label>
+                            <input type="date" class="field-input">
+                        `;
+                        break;
+                    case 'time':
+                        field.innerHTML += `
+                            <label class="field-label">Time</label>
+                            <input type="time" class="field-input">
+                        `;
+                        break;
+                    case 'file':
+                        field.innerHTML += `
+                            <label class="field-label">File Upload</label>
+                            <input type="file" class="field-input">
+                        `;
+                        break;
+                    case 'toggle':
+                        field.innerHTML += `
+                            <label class="field-label">Toggle</label>
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="toggle_${Date.now()}" style="appearance: none; width: 40px; height: 20px; background-color: #ccc; border-radius: 10px; position: relative;">
+                                <label for="toggle_${Date.now()}">Toggle Option</label>
+                            </div>
+                        `;
+                        break;
+                    case 'heading':
+                        field.innerHTML += `
+                            <h3 contenteditable="true" style="margin-bottom: 0;">Section Heading</h3>
+                        `;
+                        break;
+                    case 'divider':
+                        field.innerHTML += `
+                            <hr style="border-top: 1px solid rgba(0,0,0,0.1); margin: 10px 0;">
+                        `;
+                        break;
+                    case 'spacer':
+                        field.innerHTML += `
+                            <div style="height: 30px;"></div>
+                        `;
+                        break;
+                    case 'rating':
+                        field.innerHTML += `
+                            <label class="field-label">Rating</label>
+                            <div style="display: flex; gap: 5px;">
+                                <i class="far fa-star" style="cursor: pointer; font-size: 24px;"></i>
+                                <i class="far fa-star" style="cursor: pointer; font-size: 24px;"></i>
+                                <i class="far fa-star" style="cursor: pointer; font-size: 24px;"></i>
+                                <i class="far fa-star" style="cursor: pointer; font-size: 24px;"></i>
+                                <i class="far fa-star" style="cursor: pointer; font-size: 24px;"></i>
+                            </div>
+                        `;
+                        break;
+                    default:
+                        field.innerHTML += `
+                            <label class="field-label">Field Label</label>
+                            <input type="text" placeholder="Enter text" class="field-input">
+                        `;
+                }
+                
+                return field;
+            }
+
+            // Initialize field events for form fields
+            function initFieldEvents(field = null) {
+                // If a specific field is provided, initialize only that field
+                if (field) {
+                    // Add drag event listeners
+                    field.addEventListener('dragstart', handleDragStart);
+                    field.addEventListener('dragend', handleDragEnd);
+                    
+                    // Add click event listener
+                    field.addEventListener('click', handleFieldClick);
+                    
+                    // Add action button event listeners
+                    const duplicateBtn = field.querySelector('.duplicate-action');
+                    const deleteBtn = field.querySelector('.delete-action');
+                    
+                    if (duplicateBtn) {
+                        duplicateBtn.addEventListener('click', handleDuplicateField);
+                    }
+                    
+                    if (deleteBtn) {
+                        deleteBtn.addEventListener('click', handleDeleteField);
+                    }
+                }
+                // Otherwise, initialize all fields
+                else {
+                    // Add click event listeners to all form fields
+                    document.querySelectorAll('.form-field').forEach(field => {
+                        field.addEventListener('click', handleFieldClick);
+                        
+                        // Add action button event listeners
+                        const duplicateBtn = field.querySelector('.duplicate-action');
+                        const deleteBtn = field.querySelector('.delete-action');
+                        
+                        if (duplicateBtn) {
+                            duplicateBtn.addEventListener('click', handleDuplicateField);
+                        }
+                        
+                        if (deleteBtn) {
+                            deleteBtn.addEventListener('click', handleDeleteField);
+                        }
+                    });
+                }
+            }
+
+            // Field event handlers
+            function handleFieldClick(e) {
+                // Prevent propagation to avoid selecting field when clicking on actions
+                if (e.target.closest('.form-field-actions')) {
+                    return;
+                }
+                
+                // Remove selected class from all fields
+                document.querySelectorAll('.form-field').forEach(field => {
+                    field.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked field
+                this.classList.add('selected');
+                
+                // Set selected field
+                selectedField = this;
+                
+                // Update property panel for the selected field
+                updatePropertyPanel();
+            }
+
+            function handleDuplicateField(e) {
+                e.stopPropagation();
+                
+                const field = this.closest('.form-field');
+                const clone = field.cloneNode(true);
+                
+                // Generate new IDs for any inputs
+                const inputs = clone.querySelectorAll('input[id], select[id], textarea[id]');
+                inputs.forEach(input => {
+                    const newId = input.id + '_' + Date.now();
+                    const label = clone.querySelector(`label[for="${input.id}"]`);
+                    
+                    input.id = newId;
+                    if (label) {
+                        label.setAttribute('for', newId);
+                    }
+                });
+                
+                // Insert the clone after the original field
+                field.parentNode.insertBefore(clone, field.nextSibling);
+                
+                // Initialize the cloned field
+                initFieldEvents(clone);
+                
+                // Update form data
+                updateFormData();
+                
+                // Show toast notification
+                showToast('Field duplicated', 'The field has been duplicated successfully.', 'success');
+            }
+
+            function handleDeleteField(e) {
+                e.stopPropagation();
+                
+                const field = this.closest('.form-field');
+                
+                // Check if this is the selected field
+                if (field === selectedField) {
+                    selectedField = null;
+                }
+                
+                // Remove the field
+                field.remove();
+                
+                // Update form data
+                updateFormData();
+                
+                // Show toast notification
+                showToast('Field deleted', 'The field has been deleted successfully.', 'success');
+            }
+
+            // Property panel functionality
+            function initPropertyPanel() {
+                // Add event listeners to property tabs
+                document.querySelectorAll('.property-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        // Remove active class from all tabs
+                        document.querySelectorAll('.property-tab').forEach(t => {
+                            t.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked tab
+                        tab.classList.add('active');
+                        
+                        // Show corresponding property section
+                        const tabId = tab.getAttribute('data-tab');
+                        document.querySelectorAll('.property-section').forEach(section => {
+                            section.classList.remove('active');
+                        });
+                        
+                        document.getElementById(tabId + 'Section').classList.add('active');
+                    });
+                });
+                
+                // Add event listener to field label input
+                document.getElementById('fieldLabelInput').addEventListener('input', () => {
+                    if (selectedField) {
+                        const label = selectedField.querySelector('.field-label');
+                        if (label) {
+                            label.textContent = document.getElementById('fieldLabelInput').value;
+                            updateFormData();
+                        }
+                    }
+                });
+                
+                // Add event listener to description input
+                document.getElementById('descriptionInput').addEventListener('input', () => {
+                    if (selectedField) {
+                        // Check if description exists, if not create it
+                        let description = selectedField.querySelector('.field-description');
+                        
+                        if (!description && document.getElementById('descriptionInput').value.trim() !== '') {
+                            description = document.createElement('div');
+                            description.className = 'field-description';
+                            description.style.fontSize = '0.85rem';
+                            description.style.color = 'var(--text-secondary)';
+                            description.style.marginBottom = '0.5rem';
+                            
+                            // Insert after label
+                            const label = selectedField.querySelector('.field-label');
+                            if (label) {
+                                label.parentNode.insertBefore(description, label.nextSibling);
+                            } else {
+                                selectedField.insertBefore(description, selectedField.firstChild);
+                            }
+                        }
+                        
+                        if (description) {
+                            description.textContent = document.getElementById('descriptionInput').value;
+                            updateFormData();
+                            
+                            // Remove description if empty
+                            if (description.textContent.trim() === '') {
+                                description.remove();
+                            }
+                        }
+                    }
+                });
+                
+                // Add event listener to font select
+                document.getElementById('fontSelect').addEventListener('change', () => {
+                    if (selectedField) {
+                        const fontFamily = document.getElementById('fontSelect').value;
+                        selectedField.style.fontFamily = fontFamily;
+                        updateFormData();
+                    }
+                });
+                
+                // Add event listener to size select
+                document.getElementById('sizeSelect').addEventListener('change', () => {
+                    if (selectedField) {
+                        const size = document.getElementById('sizeSelect').value;
+                        
+                        switch (size) {
+                            case 'small':
+                                selectedField.style.fontSize = '0.85rem';
+                                break;
+                            case 'normal':
+                                selectedField.style.fontSize = '1rem';
+                                break;
+                            case 'large':
+                                selectedField.style.fontSize = '1.2rem';
+                                break;
+                            case 'x-large':
+                                selectedField.style.fontSize = '1.5rem';
+                                break;
+                        }
+                        
+                        updateFormData();
+                    }
+                });
+                
+                // Add event listeners to color options
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        // Remove selected class from all color options
+                        document.querySelectorAll('.color-option').forEach(o => {
+                            o.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to clicked option
+                        option.classList.add('selected');
+                        
+                        if (selectedField) {
+                            const color = option.getAttribute('data-color');
+                            selectedField.style.color = color;
+                            updateFormData();
+                        }
+                    });
+                });
+                
+                // Add event listeners to alignment buttons
+                document.querySelectorAll('.alignment-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Remove active class from all alignment buttons
+                        document.querySelectorAll('.alignment-btn').forEach(b => {
+                            b.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked button
+                        btn.classList.add('active');
+                        
+                        if (selectedField) {
+                            const alignment = btn.getAttribute('data-align');
+                            selectedField.style.textAlign = alignment;
+                            updateFormData();
+                        }
+                    });
+                });
+                
+                // Add event listener to add logic button
+                document.getElementById('addLogicBtn').addEventListener('click', () => {
+                    openLogicModal();
+                });
+                
+                // Add event listeners to validation options
+                document.getElementById('requiredField').addEventListener('change', () => {
+                    if (selectedField) {
+                        if (document.getElementById('requiredField').checked) {
+                            // Add required attribute to input
+                            const input = selectedField.querySelector('input, select, textarea');
+                            if (input) {
+                                input.setAttribute('required', 'required');
+                            }
+                            
+                            // Add required indicator to label
+                            const label = selectedField.querySelector('.field-label');
+                            if (label && !label.querySelector('.required-indicator')) {
+                                const requiredIndicator = document.createElement('span');
+                                requiredIndicator.className = 'required-indicator';
+                                requiredIndicator.textContent = ' *';
+                                requiredIndicator.style.color = 'var(--warning-color)';
+                                label.appendChild(requiredIndicator);
+                            }
+                        } else {
+                            // Remove required attribute from input
+                            const input = selectedField.querySelector('input, select, textarea');
+                            if (input) {
+                                input.removeAttribute('required');
+                            }
+                            
+                            // Remove required indicator from label
+                            const requiredIndicator = selectedField.querySelector('.required-indicator');
+                            if (requiredIndicator) {
+                                requiredIndicator.remove();
+                            }
+                        }
+                        
+                        updateFormData();
+                    }
+                });
+                
+                document.getElementById('showErrorMsg').addEventListener('change', () => {
+                    if (selectedField) {
+                        if (document.getElementById('showErrorMsg').checked) {
+                            // Add error message div
+                            if (!selectedField.querySelector('.error-message')) {
+                                const errorMessage = document.createElement('div');
+                                errorMessage.className = 'error-message';
+                                errorMessage.textContent = 'This field is required.';
+                                errorMessage.style.color = 'var(--warning-color)';
+                                errorMessage.style.fontSize = '0.85rem';
+                                errorMessage.style.marginTop = '0.25rem';
+                                errorMessage.style.display = 'none';
+                                
+                                // Insert after input
+                                const input = selectedField.querySelector('input, select, textarea');
+                                if (input) {
+                                    input.parentNode.insertBefore(errorMessage, input.nextSibling);
+                                } else {
+                                    selectedField.appendChild(errorMessage);
+                                }
+                            }
+                        } else {
+                            // Remove error message div
+                            const errorMessage = selectedField.querySelector('.error-message');
+                            if (errorMessage) {
+                                errorMessage.remove();
+                            }
+                        }
+                        
+                        updateFormData();
+                    }
+                });
+            }
+
+            // Update property panel based on selected field
+            function updatePropertyPanel() {
+                if (!selectedField) {
+                    // Disable property panel
+                    document.querySelectorAll('.property-section input, .property-section select, .property-section textarea, .property-section button').forEach(element => {
+                        element.disabled = true;
+                    });
+                    
+                    return;
+                }
+                
+                // Enable property panel
+                document.querySelectorAll('.property-section input, .property-section select, .property-section textarea, .property-section button').forEach(element => {
+                    element.disabled = false;
+                });
+                
+                // Update field label input
+                const label = selectedField.querySelector('.field-label');
+                if (label) {
+                    document.getElementById('fieldLabelInput').value = label.textContent;
+                } else {
+                    document.getElementById('fieldLabelInput').value = '';
+                }
+                
+                // Update description input
+                const description = selectedField.querySelector('.field-description');
+                if (description) {
+                    document.getElementById('descriptionInput').value = description.textContent;
+                } else {
+                    document.getElementById('descriptionInput').value = '';
+                }
+                
+                // Update font select
+                const fontFamily = selectedField.style.fontFamily;
+                if (fontFamily) {
+                    document.getElementById('fontSelect').value = fontFamily.replace(/['"]/g, '');
+                } else {
+                    document.getElementById('fontSelect').value = 'Inter';
+                }
+                
+                // Update size select
+                const fontSize = selectedField.style.fontSize;
+                if (fontSize) {
+                    if (fontSize === '0.85rem') {
+                        document.getElementById('sizeSelect').value = 'small';
+                    } else if (fontSize === '1rem' || fontSize === '') {
+                        document.getElementById('sizeSelect').value = 'normal';
+                    } else if (fontSize === '1.2rem') {
+                        document.getElementById('sizeSelect').value = 'large';
+                    } else if (fontSize === '1.5rem') {
+                        document.getElementById('sizeSelect').value = 'x-large';
+                    }
+                } else {
+                    document.getElementById('sizeSelect').value = 'normal';
+                }
+                
+                // Update color options
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                const color = selectedField.style.color;
+                if (color) {
+                    const colorOption = document.querySelector(`.color-option[data-color="${color}"]`);
+                    if (colorOption) {
+                        colorOption.classList.add('selected');
+                    }
+                }
+                
+                // Update alignment buttons
+                document.querySelectorAll('.alignment-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                const textAlign = selectedField.style.textAlign;
+                if (textAlign) {
+                    const alignmentBtn = document.querySelector(`.alignment-btn[data-align="${textAlign}"]`);
+                    if (alignmentBtn) {
+                        alignmentBtn.classList.add('active');
+                    }
+                }
+                
+                // Update validation options
+                const input = selectedField.querySelector('input, select, textarea');
+                if (input) {
+                    document.getElementById('requiredField').checked = input.hasAttribute('required');
+                } else {
+                    document.getElementById('requiredField').checked = false;
+                }
+                
+                document.getElementById('showErrorMsg').checked = selectedField.querySelector('.error-message') !== null;
+            }
+
+            // Form data management
+            function updateFormData() {
+                // Update form title and description
+                formData.title = document.querySelector('.form-header h2').textContent;
+                formData.description = document.querySelector('.form-header p').textContent;
+                
+                // Update form fields
+                formData.fields = [];
+                
+                document.querySelectorAll('.form-field').forEach(field => {
+                    const fieldData = {
+                        type: field.getAttribute('data-type'),
+                        label: field.querySelector('.field-label') ? field.querySelector('.field-label').textContent : '',
+                        description: field.querySelector('.field-description') ? field.querySelector('.field-description').textContent : '',
+                        required: field.querySelector('input, select, textarea') ? field.querySelector('input, select, textarea').hasAttribute('required') : false,
+                        showError: field.querySelector('.error-message') !== null,
+                        style: {
+                            fontFamily: field.style.fontFamily,
+                            fontSize: field.style.fontSize,
+                            color: field.style.color,
+                            textAlign: field.style.textAlign
+                        },
+                        logic: field.getAttribute('data-logic') || null
+                    };
+                    
+                    formData.fields.push(fieldData);
+                });
+                
+                // Save form data to localStorage
+                localStorage.setItem('porticoFormData', JSON.stringify(formData));
+            }
+
+            // Modal event handlers
+            function initModalEvents() {
+                // Preview button
+                document.getElementById('previewBtn').addEventListener('click', openPreviewModal);
+                
+                // Share button
+                document.getElementById('shareBtn').addEventListener('click', openShareModal);
+                
+                // Template button
+                document.getElementById('templateBtn').addEventListener('click', openTemplatesModal);
+                
+                // Close buttons
+                document.querySelectorAll('.modal-close, .modal-btn-secondary').forEach(button => {
+                    button.addEventListener('click', closeModals);
+                });
+                
+                // Save button
+                document.getElementById('saveBtn').addEventListener('click', saveForm);
+                
+                // Use template button
+                document.getElementById('useTemplateBtn').addEventListener('click', useSelectedTemplate);
+                
+                // Template cards
+                document.querySelectorAll('.template-card').forEach(card => {
+                    card.addEventListener('click', selectTemplateCard);
+                });
+                
+                // Share options
+                document.querySelectorAll('.share-option').forEach(option => {
+                    option.addEventListener('click', shareViaOption);
+                });
+                
+                // Copy link button
+                document.getElementById('copyLinkBtn').addEventListener('click', copyShareLink);
+                
+                // Logic builder
+                document.getElementById('saveLogicBtn').addEventListener('click', saveLogicRules);
+                document.getElementById('addConditionBtn').addEventListener('click', addConditionGroup);
+                
+                // Logic condition events (using event delegation for dynamically added elements)
+                document.getElementById('logicBuilder').addEventListener('click', (e) => {
+                    if (e.target.classList.contains('logic-delete-btn') || e.target.closest('.logic-delete-btn')) {
+                        const condition = e.target.closest('.logic-condition');
+                        if (condition) {
+                            condition.remove();
+                        }
+                    } else if (e.target.classList.contains('logic-and-btn') || e.target.closest('.logic-and-btn')) {
+                        const condition = e.target.closest('.logic-condition');
+                        if (condition) {
+                            addAndCondition(condition);
+                        }
+                    } else if (e.target.classList.contains('logic-or-btn') || e.target.closest('.logic-or-btn')) {
+                        const condition = e.target.closest('.logic-condition');
+                        if (condition) {
+                            addOrCondition(condition);
+                        }
+                    }
+                });
+            }
+
+            // Modal functions
+            function openPreviewModal() {
+                const previewModal = document.getElementById('previewModal');
+                const previewContainer = document.getElementById('previewContainer');
+                
+                // Generate preview content
+                previewContainer.innerHTML = '';
+                
+                const formTitle = document.createElement('h2');
+                formTitle.textContent = formData.title;
+                formTitle.style.marginBottom = '1rem';
+                
+                const formDescription = document.createElement('p');
+                formDescription.textContent = formData.description;
+                formDescription.style.marginBottom = '2rem';
+                formDescription.style.color = 'var(--text-secondary)';
+                
+                previewContainer.appendChild(formTitle);
+                previewContainer.appendChild(formDescription);
+                
+                // Clone each field for the preview
+                document.querySelectorAll('.form-field').forEach(field => {
+                    const previewField = field.cloneNode(true);
+                    
+                    // Remove field actions
+                    const actions = previewField.querySelector('.form-field-actions');
+                    if (actions) {
+                        actions.remove();
+                    }
+                    
+                    // Make fields not draggable
+                    previewField.setAttribute('draggable', 'false');
+                    
+                    // Add to preview container
+                    previewContainer.appendChild(previewField);
+                });
+                
+                // Add submit button
+                const submitButton = document.createElement('button');
+                submitButton.textContent = 'Submit';
+                submitButton.className = 'modal-btn modal-btn-primary';
+                submitButton.style.marginTop = '2rem';
+                
+                previewContainer.appendChild(submitButton);
+                
+                // Show the modal
+                previewModal.classList.add('active');
+            }
+
+            function openShareModal() {
+                const shareModal = document.getElementById('shareModal');
+                shareModal.classList.add('active');
+            }
+
+            function openTemplatesModal() {
+                const templatesModal = document.getElementById('templatesModal');
+                templatesModal.classList.add('active');
+            }
+
+            function openLogicModal() {
+                const logicModal = document.getElementById('logicModal');
+                
+                // Populate field select with available fields
+                const fieldSelect = logicModal.querySelectorAll('.field-select');
+                fieldSelect.forEach(select => {
+                    // Clear existing options
+                    select.innerHTML = '<option value="">Select a field</option>';
+                    
+                    // Add options for each field except the selected field
+                    document.querySelectorAll('.form-field').forEach(field => {
+                        if (field !== selectedField) {
+                            const label = field.querySelector('.field-label');
+                            if (label) {
+                                const option = document.createElement('option');
+                                option.value = field.getAttribute('data-type') + '_' + Array.from(formFieldsContainer.children).indexOf(field);
+                                option.textContent = label.textContent;
+                                select.appendChild(option);
+                            }
+                        }
+                    });
+                });
+                
+                // Show the modal
+                logicModal.classList.add('active');
+            }
+
+            function closeModals() {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+
+            function saveForm() {
+                updateFormData();
+                showToast('Form saved', 'Your form has been saved successfully.', 'success');
+            }
+
+            function useSelectedTemplate() {
+                const selectedTemplate = document.querySelector('.template-card.selected');
+                if (!selectedTemplate) {
+                    return;
+                }
+                
+                const templateType = selectedTemplate.getAttribute('data-template');
+                
+                // Clear existing fields
+                formFieldsContainer.innerHTML = '';
+                
+                // Add template fields based on template type
+                switch (templateType) {
+                    case 'contact':
+                        addContactFormTemplate();
+                        break;
+                    case 'registration':
+                        addRegistrationFormTemplate();
+                        break;
+                    case 'survey':
+                        addSurveyFormTemplate();
+                        break;
+                    case 'event':
+                        addEventFormTemplate();
+                        break;
+                }
+                
+                // Update form title and description
+                const formHeader = document.querySelector('.form-header');
+                
+                switch (templateType) {
+                    case 'contact':
+                        formHeader.querySelector('h2').textContent = 'Contact Us';
+                        formHeader.querySelector('p').textContent = 'We\'d love to hear from you. Fill out the form below to get in touch.';
+                        break;
+                    case 'registration':
+                        formHeader.querySelector('h2').textContent = 'Create an Account';
+                        formHeader.querySelector('p').textContent = 'Sign up to get started with our service.';
+                        break;
+                    case 'survey':
+                        formHeader.querySelector('h2').textContent = 'Customer Feedback Survey';
+                        formHeader.querySelector('p').textContent = 'Help us improve our services by providing your feedback.';
+                        break;
+                    case 'event':
+                        formHeader.querySelector('h2').textContent = 'Event Registration';
+                        formHeader.querySelector('p').textContent = 'Register for our upcoming event.';
+                        break;
+                }
+                
+                // Initialize field events for new fields
+                document.querySelectorAll('.form-field').forEach(field => {
+                    initFieldEvents(field);
+                });
+                
+                // Update form data
+                updateFormData();
+                
+                // Close the modal
+                closeModals();
+                
+                // Show success toast
+                showToast('Template applied', 'The template has been applied successfully.', 'success');
+            }
+
+            function selectTemplateCard() {
+                // Remove selected class from all template cards
+                document.querySelectorAll('.template-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked card
+                this.classList.add('selected');
+            }
+
+            function shareViaOption() {
+                const platform = this.getAttribute('data-platform');
+                const shareUrl = document.getElementById('shareLink').value;
+                
+                let shareLink = '';
+                
+                switch (platform) {
+                    case 'email':
+                        shareLink = `mailto:?subject=Check out my form&body=I created a form using Portico. Check it out here: ${shareUrl}`;
+                        break;
+                    case 'twitter':
+                        shareLink = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=Check out my form created with Portico:`;
+                        break;
+                    case 'facebook':
+                        shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+                        break;
+                    case 'linkedin':
+                        shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+                        break;
+                }
+                
+                if (shareLink) {
+                    window.open(shareLink, '_blank');
+                }
+            }
+
+            function copyShareLink() {
+                const shareLink = document.getElementById('shareLink');
+                
+                // Select the text
+                shareLink.select();
+                shareLink.setSelectionRange(0, 99999); // For mobile devices
+                
+                // Copy the text
+                document.execCommand('copy');
+                
+                // Deselect the text
+                window.getSelection().removeAllRanges();
+                
+                // Show success toast
+                showToast('Link copied', 'The share link has been copied to your clipboard.', 'success');
+            }
+
+            // Logic builder functions
+            function addConditionGroup() {
+                const logicBuilder = document.getElementById('logicBuilder');
+                const addConditionBtn = document.getElementById('addConditionBtn');
+                
+                // Create a new condition group
+                const conditionGroup = document.createElement('div');
+                conditionGroup.className = 'logic-condition';
+                conditionGroup.innerHTML = `
+                    <div class="logic-row">
+                        <span>If</span>
+                        <select class="logic-select field-select">
                             <option value="">Select a field</option>
                             <!-- Options will be populated dynamically -->
                         </select>
-                        
-                        <select class="condition-operator">
+                        <select class="logic-select operator-select">
                             <option value="equals">equals</option>
                             <option value="not_equals">does not equal</option>
                             <option value="contains">contains</option>
                             <option value="not_contains">does not contain</option>
-                            <option value="greater_than">is greater than</option>
-                            <option value="less_than">is less than</option>
+                            <option value="starts_with">starts with</option>
+                            <option value="ends_with">ends with</option>
+                            <option value="is_empty">is empty</option>
+                            <option value="is_not_empty">is not empty</option>
                         </select>
-                        
-                        <input type="text" class="condition-value" placeholder="Value">
-                        
-                        <button class="remove-condition-btn">
-                            <i class="fas fa-times"></i>
+                        <input type="text" class="logic-select value-input" placeholder="Value">
+                    </div>
+                    <div class="logic-action-row">
+                        <button class="logic-action-btn logic-delete-btn">
+                            <i class="fas fa-trash"></i> Delete
                         </button>
+                        <div>
+                            <button class="logic-action-btn logic-and-btn">
+                                <i class="fas fa-plus"></i> Add AND Condition
+                            </button>
+                            <button class="logic-action-btn logic-or-btn">
+                                <i class="fas fa-plus"></i> Add OR Condition
+                            </button>
+                        </div>
                     </div>
-                </div>
+                `;
                 
-                <button id="addConditionBtn" class="add-condition-btn">
-                    <i class="fas fa-plus"></i> Add Another Condition
-                </button>
+                // Populate field select
+                const fieldSelect = conditionGroup.querySelector('.field-select');
+                document.querySelectorAll('.form-field').forEach(field => {
+                    if (field !== selectedField) {
+                        const label = field.querySelector('.field-label');
+                        if (label) {
+                            const option = document.createElement('option');
+                            option.value = field.getAttribute('data-type') + '_' + Array.from(formFieldsContainer.children).indexOf(field);
+                            option.textContent = label.textContent;
+                            fieldSelect.appendChild(option);
+                        }
+                    }
+                });
                 
-                <div class="logic-footer">
-                    <select id="logicMatchType">
-                        <option value="all">All conditions must be met</option>
-                        <option value="any">Any condition can be met</option>
-                    </select>
-                    
-                    <div class="logic-actions">
-                        <button id="cancelLogicBtn" class="cancel-btn">Cancel</button>
-                        <button id="saveLogicBtn" class="save-btn">Save Rules</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                // Insert before the add condition button
+                logicBuilder.insertBefore(conditionGroup, addConditionBtn);
+            }
 
-    <!-- Scripts -->
-    <script src="js/main.js"></script>
-    <script src="js/drag-drop.js"></script>
-    <script src="js/form-logic.js"></script>
+            function addAndCondition(conditionGroup) {
+                const logicRow = document.createElement('div');
+                logicRow.className = 'logic-row';
+                logicRow.innerHTML = `
+                    <span>AND</span>
+                    <select class="logic-select field-select">
+                        <option value="">Select a field</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                    <select class="logic-select operator-select">
+                        <option value="equals">equals</option>
+                        <option value="not_equals">does not equal</option>
+                        <option value="contains">contains</option>
+                        <option value="not_contains">does not contain</option>
+                        <option value="starts_with">starts with</option>
+                        <option value="ends_with">ends with</option>
+                        <option value="is_empty">is empty</option>
+                        <option value="is_not_empty">is not empty</option>
+                    </select>
+                    <input type="text" class="logic-select value-input" placeholder="Value">
+                    <button class="logic-action-btn logic-delete-btn" style="padding: 0.25rem;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                // Populate field select
+                const fieldSelect = logicRow.querySelector('.field-select');
+                document.querySelectorAll('.form-field').forEach(field => {
+                    if (field !== selectedField) {
+                        const label = field.querySelector('.field-label');
+                        if (label) {
+                            const option = document.createElement('option');
+                            option.value = field.getAttribute('data-type') + '_' + Array.from(formFieldsContainer.children).indexOf(field);
+                            option.textContent = label.textContent;
+                            fieldSelect.appendChild(option);
+                        }
+                    }
+                });
+                
+                // Insert before the action row
+                const actionRow = conditionGroup.querySelector('.logic-action-row');
+                conditionGroup.insertBefore(logicRow, actionRow);
+            }
+
+            function addOrCondition(conditionGroup) {
+                const logicRow = document.createElement('div');
+                logicRow.className = 'logic-row';
+                logicRow.innerHTML = `
+                    <span>OR</span>
+                    <select class="logic-select field-select">
+                        <option value="">Select a field</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                    <select class="logic-select operator-select">
+                        <option value="equals">equals</option>
+                        <option value="not_equals">does not equal</option>
+                        <option value="contains">contains</option>
+                        <option value="not_contains">does not contain</option>
+                        <option value="starts_with">starts with</option>
+                        <option value="ends_with">ends with</option>
+                        <option value="is_empty">is empty</option>
+                        <option value="is_not_empty">is not empty</option>
+                    </select>
+                    <input type="text" class="logic-select value-input" placeholder="Value">
+                    <button class="logic-action-btn logic-delete-btn" style="padding: 0.25rem;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                // Populate field select
+                const fieldSelect = logicRow.querySelector('.field-select');
+                document.querySelectorAll('.form-field').forEach(field => {
+                    if (field !== selectedField) {
+                        const label = field.querySelector('.field-label');
+                        if (label) {
+                            const option = document.createElement('option');
+                            option.value = field.getAttribute('data-type') + '_' + Array.from(formFieldsContainer.children).indexOf(field);
+                            option.textContent = label.textContent;
+                            fieldSelect.appendChild(option);
+                        }
+                    }
+                });
+                
+                // Insert before the action row
+                const actionRow = conditionGroup.querySelector('.logic-action-row');
+                conditionGroup.insertBefore(logicRow, actionRow);
+            }
+
+            function saveLogicRules() {
+                // Get logic action
+                const logicAction = document.getElementById('logicActionSelect').value;
+                
+                // Get conditions
+                const conditions = [];
+                document.querySelectorAll('.logic-condition').forEach(conditionGroup => {
+                    const logicRows = conditionGroup.querySelectorAll('.logic-row');
+                    const groupConditions = [];
+                    
+                    logicRows.forEach(row => {
+                        const condition = {
+                            type: row.querySelector('span').textContent.toLowerCase(),
+                            field: row.querySelector('.field-select').value,
+                            operator: row.querySelector('.operator-select').value,
+                            value: row.querySelector('.value-input').value
+                        };
+                        
+                        groupConditions.push(condition);
+                    });
+                    
+                    conditions.push(groupConditions);
+                });
+                
+                // Create logic object
+                const logicData = {
+                    action: logicAction,
+                    conditions: conditions
+                };
+                
+                // Save logic to selected field
+                if (selectedField) {
+                    selectedField.setAttribute('data-logic', JSON.stringify(logicData));
+                    
+                    // Update form data
+                    updateFormData();
+                    
+                    // Close the modal
+                    closeModals();
+                    
+                    // Show success toast
+                    showToast('Logic rules saved', 'The conditional logic rules have been saved successfully.', 'success');
+                }
+            }
+
+            // Template helper functions
+            function addContactFormTemplate() {
+                // Name field
+                const nameField = createFormField('text');
+                nameField.querySelector('.field-label').textContent = 'Full Name';
+                nameField.querySelector('input').placeholder = 'John Doe';
+                nameField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(nameField);
+                
+                // Email field
+                const emailField = createFormField('email');
+                emailField.querySelector('.field-label').textContent = 'Email Address';
+                emailField.querySelector('input').placeholder = 'john@example.com';
+                emailField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(emailField);
+                
+                // Phone field
+                const phoneField = createFormField('phone');
+                phoneField.querySelector('.field-label').textContent = 'Phone Number';
+                phoneField.querySelector('input').placeholder = '+1 (555) 123-4567';
+                formFieldsContainer.appendChild(phoneField);
+                
+                // Subject field
+                const subjectField = createFormField('text');
+                subjectField.querySelector('.field-label').textContent = 'Subject';
+                subjectField.querySelector('input').placeholder = 'What is your message about?';
+                formFieldsContainer.appendChild(subjectField);
+                
+                // Message field
+                const messageField = createFormField('textarea');
+                messageField.querySelector('.field-label').textContent = 'Message';
+                messageField.querySelector('textarea').placeholder = 'Tell us about your inquiry...';
+                messageField.querySelector('textarea').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(messageField);
+                
+                // Terms field
+                const termsField = createFormField('checkbox');
+                termsField.querySelector('label').textContent = 'I agree to be contacted about my inquiry';
+                formFieldsContainer.appendChild(termsField);
+            }
+
+            function addRegistrationFormTemplate() {
+                // Name fields
+                const firstNameField = createFormField('text');
+                firstNameField.querySelector('.field-label').textContent = 'First Name';
+                firstNameField.querySelector('input').placeholder = 'John';
+                firstNameField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(firstNameField);
+                
+                const lastNameField = createFormField('text');
+                lastNameField.querySelector('.field-label').textContent = 'Last Name';
+                lastNameField.querySelector('input').placeholder = 'Doe';
+                lastNameField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(lastNameField);
+                
+                // Email field
+                const emailField = createFormField('email');
+                emailField.querySelector('.field-label').textContent = 'Email Address';
+                emailField.querySelector('input').placeholder = 'john@example.com';
+                emailField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(emailField);
+                
+                // Password fields
+                const passwordField = createFormField('text');
+                passwordField.querySelector('.field-label').textContent = 'Password';
+                passwordField.querySelector('input').type = 'password';
+                passwordField.querySelector('input').placeholder = 'Enter your password';
+                passwordField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(passwordField);
+                
+                const confirmPasswordField = createFormField('text');
+                confirmPasswordField.querySelector('.field-label').textContent = 'Confirm Password';
+                confirmPasswordField.querySelector('input').type = 'password';
+                confirmPasswordField.querySelector('input').placeholder = 'Confirm your password';
+                confirmPasswordField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(confirmPasswordField);
+                
+                // Date of birth field
+                const dobField = createFormField('date');
+                dobField.querySelector('.field-label').textContent = 'Date of Birth';
+                formFieldsContainer.appendChild(dobField);
+                
+                // Terms field
+                const termsField = createFormField('checkbox');
+                termsField.querySelector('label').textContent = 'I agree to the Terms of Service and Privacy Policy';
+                termsField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(termsField);
+            }
+
+            function addSurveyFormTemplate() {
+                // Satisfaction field
+                const satisfactionField = createFormField('radio');
+                satisfactionField.querySelector('.field-label').textContent = 'How satisfied are you with our service?';
+                formFieldsContainer.appendChild(satisfactionField);
+                
+                // Recommendation field
+                const recommendField = createFormField('radio');
+                recommendField.querySelector('.field-label').textContent = 'How likely are you to recommend our service to others?';
+                formFieldsContainer.appendChild(recommendField);
+                
+                // Improvement field
+                const improvementField = createFormField('checkbox');
+                improvementField.querySelector('.field-label').textContent = 'Which aspects of our service could be improved?';
+                formFieldsContainer.appendChild(improvementField);
+                
+                // Feedback field
+                const feedbackField = createFormField('textarea');
+                feedbackField.querySelector('.field-label').textContent = 'Do you have any additional feedback?';
+                feedbackField.querySelector('textarea').placeholder = 'Share your thoughts...';
+                formFieldsContainer.appendChild(feedbackField);
+                
+                // Contact permission field
+                const contactField = createFormField('checkbox');
+                contactField.querySelector('label').textContent = 'May we contact you about your feedback?';
+                formFieldsContainer.appendChild(contactField);
+                
+                // Email field (conditionally shown)
+                const emailField = createFormField('email');
+                emailField.querySelector('.field-label').textContent = 'Email Address';
+                emailField.querySelector('input').placeholder = 'john@example.com';
+                formFieldsContainer.appendChild(emailField);
+            }
+
+            function addEventFormTemplate() {
+                // Name field
+                const nameField = createFormField('text');
+                nameField.querySelector('.field-label').textContent = 'Full Name';
+                nameField.querySelector('input').placeholder = 'John Doe';
+                nameField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(nameField);
+                
+                // Email field
+                const emailField = createFormField('email');
+                emailField.querySelector('.field-label').textContent = 'Email Address';
+                emailField.querySelector('input').placeholder = 'john@example.com';
+                emailField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(emailField);
+                
+                // Phone field
+                const phoneField = createFormField('phone');
+                phoneField.querySelector('.field-label').textContent = 'Phone Number';
+                phoneField.querySelector('input').placeholder = '+1 (555) 123-4567';
+                formFieldsContainer.appendChild(phoneField);
+                
+                // Event selection field
+                const eventField = createFormField('dropdown');
+                eventField.querySelector('.field-label').textContent = 'Which event are you registering for?';
+                eventField.querySelector('select').innerHTML = `
+                    <option value="" disabled selected>Select an event</option>
+                    <option value="event1">Annual Conference</option>
+                    <option value="event2">Workshop Series</option>
+                    <option value="event3">Networking Mixer</option>
+                `;
+                eventField.querySelector('select').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(eventField);
+                
+                // Date selection field
+                const dateField = createFormField('date');
+                dateField.querySelector('.field-label').textContent = 'Preferred Date';
+                dateField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(dateField);
+                
+                // Dietary restrictions field
+                const dietaryField = createFormField('textarea');
+                dietaryField.querySelector('.field-label').textContent = 'Dietary Restrictions';
+                dietaryField.querySelector('textarea').placeholder = 'Please list any dietary restrictions or allergies...';
+                formFieldsContainer.appendChild(dietaryField);
+                
+                // Terms field
+                const termsField = createFormField('checkbox');
+                termsField.querySelector('label').textContent = 'I understand that my registration is subject to availability';
+                termsField.querySelector('input').setAttribute('required', 'required');
+                formFieldsContainer.appendChild(termsField);
+            }
+
+            // Toast notification
+            function showToast(title, message, type = 'success') {
+                const toastContainer = document.getElementById('toastContainer');
+                
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                
+                toast.innerHTML = `
+                    <div class="toast-icon">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    </div>
+                    <div class="toast-content">
+                        <div class="toast-title">${title}</div>
+                        <div class="toast-message">${message}</div>
+                    </div>
+                    <button class="toast-close">&times;</button>
+                `;
+                
+                toastContainer.appendChild(toast);
+                
+                // Show the toast
+                setTimeout(() => {
+                    toast.classList.add('active');
+                }, 10);
+                
+                // Hide the toast after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('active');
+                    
+                    // Remove the toast after the transition
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300);
+                }, 3000);
+                
+                // Add event listener to close button
+                toast.querySelector('.toast-close').addEventListener('click', () => {
+                    toast.classList.remove('active');
+                    
+                    // Remove the toast after the transition
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
