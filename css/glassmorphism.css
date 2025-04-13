@@ -1,0 +1,167 @@
+/* Glassmorphism styles for Portico Form Builder */
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+}
+
+/* Background gradient animation */
+body {
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Glass effect for form elements */
+.form-field {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.form-field:hover {
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+}
+
+/* Glass effect for inputs */
+.field-input {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Glass effect for sidebars */
+.sidebar {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+}
+
+.right-sidebar {
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: none;
+}
+
+/* Glass effect for buttons */
+.btn {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 10px rgba(31, 38, 135, 0.1);
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 15px rgba(31, 38, 135, 0.15);
+}
+
+/* Glass effect for form elements in sidebar */
+.form-element {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 5px rgba(31, 38, 135, 0.05);
+}
+
+.form-element:hover {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 5px 15px rgba(31, 38, 135, 0.1);
+}
+
+/* Glass effect for modal */
+.modal-content {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 40px rgba(31, 38, 135, 0.2);
+}
+
+/* Glass effect for property panel */
+.property-panel {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Glass effect for header */
+.header {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(31, 38, 135, 0.05);
+}
+
+/* Subtle blur for dropdowns and selects */
+select, .dropdown-menu {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Template cards glass effect */
+.template-card {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1);
+    transition: all 0.3s ease;
+}
+
+.template-card:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(31, 38, 135, 0.15);
+}
+
+/* Additional glassmorphism effects for elements */
+.color-option {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.property-group input, 
+.property-group textarea {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Subtle bevel effect for buttons */
+.alignment-btn,
+.add-logic-btn,
+.templates-btn {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 2px 5px rgba(31, 38, 135, 0.1);
+}

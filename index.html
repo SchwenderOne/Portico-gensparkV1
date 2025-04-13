@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portico - Glassmorphic Form Builder</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/glassmorphism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-layer-group"></i>
+                <h1>Portico</h1>
+            </div>
+            <div class="header-actions">
+                <button id="saveBtn" class="btn">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button id="previewBtn" class="btn">
+                    <i class="fas fa-eye"></i> Preview
+                </button>
+                <button id="shareBtn" class="btn">
+                    <i class="fas fa-share-alt"></i> Share
+                </button>
+            </div>
+            <div class="user-actions">
+                <i class="fas fa-bell notification-icon"></i>
+                <div class="user-avatar">P</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Sidebar - Form Fields -->
+            <aside class="sidebar left-sidebar">
+                <h2 class="sidebar-title">FORM FIELDS</h2>
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="all">All</button>
+                    <button class="category-tab" data-category="basic">Basic</button>
+                    <button class="category-tab" data-category="advanced">Advanced</button>
+                    <button class="category-tab" data-category="layout">Layout</button>
+                </div>
+
+                <div class="field-section">
+                    <h3 class="section-heading">Text Fields</h3>
+                    <div class="form-element" draggable="true" data-type="text-input" data-category="basic">
+                        <i class="fas fa-font"></i>
+                        <span>Text Input</span>
+                    </div>
+                    <div class="form-element" draggable="true" data-type="text-area" data-category="basic">
+                        <i class="fas fa-align-left"></i>
+                        <span>Text Area</span>
+                    </div>
+                    <div class="form-element" draggable="true" data-type="email" data-category="basic">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </div>
+                    <div class="form-element" draggable="true" data-type="phone" data-category="basic">
+                        <i class="fas fa-phone"></i>
+                        <span>Phone</span>
+                    </div>
+                </div>
+
+                <div class="field-section">
+                    <h3 class="section-heading">Choice Fields</h3>
+                    <div class="form-element" draggable="true" data-type="checkbox" data-category="basic">
+                        <i class="fas fa-check-square"></i>
+                        <span>Checkbox</span>
+                    </div>
+                    <div class="form-element" draggable="true" data-type="radio-button" data-category="basic">
+                        <i class="fas fa-dot-circle"></i>
+                        <span>Radio Button</span>
+                    </div>
+                    <div class="form-element" draggable="true" data-type="dropdown" data-category="basic">
+                        <i class="fas fa-caret-down"></i>
+                        <span>Dropdown</span>
+                    </div>
+                    <div class="form-element" draggable="true" data-type="toggle" data-category="basic">
+                        <i class="fas fa-toggle-on"></i>
+                        <span>Toggle</span>
+                    </div>
+                </div>
+
+                <div class="field-section">
+                    <h3 class="section-heading">Advanced Fields</h3>
+                    <div class="form-element" draggable="true" data-type="date" data-category="advanced">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Date</span>
+                    </div>
+                    <div class="form-element" draggable="true" data-type="file-upload" data-category="advanced">
+                        <i class="fas fa-file-upload"></i>
+                        <span>File Upload</span>
+                    </div>
+                </div>
+
+                <div class="field-section">
+                    <h3 class="section-heading">Templates</h3>
+                    <button id="browseTemplatesBtn" class="templates-btn">
+                        <i class="fas fa-th-large"></i>
+                        Browse Templates
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Form Builder Area -->
+            <main class="form-builder">
+                <div class="form-container glass-card">
+                    <div class="form-header" contenteditable="true">
+                        <h2 id="formTitle">Untitled Form</h2>
+                        <p id="formDescription">This is a description of your form. Click to edit.</p>
+                    </div>
+
+                    <div id="formFields" class="form-fields-container">
+                        <!-- Form fields will be added here dynamically -->
+                        <div class="form-field" data-field-id="field-1" draggable="true">
+                            <div class="field-header">
+                                <label>Full Name</label>
+                            </div>
+                            <input type="text" placeholder="John Doe" class="field-input">
+                        </div>
+
+                        <div class="form-field" data-field-id="field-2" draggable="true">
+                            <div class="field-header">
+                                <label>Email Address</label>
+                            </div>
+                            <input type="email" placeholder="john@example.com" class="field-input">
+                        </div>
+
+                        <div class="form-field" data-field-id="field-3" draggable="true">
+                            <div class="field-header">
+                                <label>Phone Number</label>
+                            </div>
+                            <input type="tel" placeholder="+1 (555) 123-4567" class="field-input">
+                        </div>
+
+                        <div class="form-field" data-field-id="field-4" draggable="true">
+                            <div class="field-header">
+                                <label>Date of Birth</label>
+                            </div>
+                            <input type="date" class="field-input">
+                        </div>
+
+                        <div class="form-field" data-field-id="field-5" draggable="true">
+                            <div class="field-header">
+                                <label>How did you hear about us?</label>
+                            </div>
+                            <select class="field-input">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="search">Search Engine</option>
+                                <option value="social">Social Media</option>
+                                <option value="friend">Friend</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field" data-field-id="field-6" draggable="true">
+                            <div class="field-header">
+                                <label>Message</label>
+                            </div>
+                            <textarea class="field-input" placeholder="Tell us about your project..."></textarea>
+                        </div>
+
+                        <div class="form-field" data-field-id="field-7" draggable="true">
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="termsCheckbox">
+                                <label for="termsCheckbox">I agree to the Terms of Service and Privacy Policy</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dropZone" class="drop-zone">
+                        <div class="drop-zone-content">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Drag and drop elements here</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar - Properties -->
+            <aside class="sidebar right-sidebar">
+                <h2 class="sidebar-title">Element Properties</h2>
+                
+                <div class="property-tabs">
+                    <button class="property-tab active" data-tab="field-label">Field Label</button>
+                    <button class="property-tab" data-tab="description">Description</button>
+                    <button class="property-tab" data-tab="styling">Styling</button>
+                </div>
+
+                <div id="fieldLabelPanel" class="property-panel active">
+                    <div class="property-group">
+                        <label>Field Label</label>
+                        <input type="text" id="fieldLabelInput" placeholder="Enter field label">
+                    </div>
+                </div>
+
+                <div id="descriptionPanel" class="property-panel">
+                    <div class="property-group">
+                        <label>Description</label>
+                        <textarea id="descriptionInput" placeholder="Enter field description"></textarea>
+                    </div>
+                </div>
+
+                <div id="stylingPanel" class="property-panel">
+                    <div class="style-options">
+                        <div class="style-row">
+                            <div class="style-column">
+                                <label>Font</label>
+                                <select id="fontSelect">
+                                    <option value="Inter">Inter</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Open Sans">Open Sans</option>
+                                    <option value="Montserrat">Montserrat</option>
+                                    <option value="Lato">Lato</option>
+                                    <option value="Poppins">Poppins</option>
+                                </select>
+                            </div>
+                            <div class="style-column">
+                                <label>Size</label>
+                                <select id="sizeSelect">
+                                    <option value="small">Small</option>
+                                    <option value="normal" selected>Normal</option>
+                                    <option value="large">Large</option>
+                                    <option value="x-large">X-Large</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="property-group">
+                        <label>Color</label>
+                        <div class="color-options">
+                            <div class="color-option" data-color="#1e88e5" style="background-color: #1e88e5;"></div>
+                            <div class="color-option" data-color="#9c27b0" style="background-color: #9c27b0;"></div>
+                            <div class="color-option" data-color="#e91e63" style="background-color: #e91e63;"></div>
+                            <div class="color-option" data-color="#ff9800" style="background-color: #ff9800;"></div>
+                            <div class="color-option" data-color="#607d8b" style="background-color: #607d8b;"></div>
+                            <div class="color-option add-color" data-color="custom">+</div>
+                        </div>
+                    </div>
+
+                    <div class="property-group">
+                        <label>Alignment</label>
+                        <div class="alignment-options">
+                            <button class="alignment-btn" data-align="left">
+                                <i class="fas fa-align-left"></i>
+                            </button>
+                            <button class="alignment-btn" data-align="center">
+                                <i class="fas fa-align-center"></i>
+                            </button>
+                            <button class="alignment-btn" data-align="right">
+                                <i class="fas fa-align-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="property-section">
+                    <h3 class="section-heading">Logic & Rules</h3>
+                    <button id="addLogicBtn" class="add-logic-btn">
+                        <i class="fas fa-plus"></i> Add Conditional Logic
+                    </button>
+                </div>
+
+                <div class="property-section">
+                    <h3 class="section-heading">Validation</h3>
+                    <div class="validation-options">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="requiredField">
+                            <label for="requiredField">Required Field</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="showErrorMessage">
+                            <label for="showErrorMessage">Show Error Message</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Form Preview</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="previewForm" class="preview-form">
+                    <!-- Preview content will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Share Form</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Share your form with others by copying the link below:</p>
+                <div class="share-link-container">
+                    <input type="text" id="shareLink" value="https://portico.app/forms/abc123" readonly>
+                    <button id="copyLinkBtn" class="copy-btn">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="share-options">
+                    <h3>Sharing Options</h3>
+                    <div class="option">
+                        <input type="radio" id="sharePublic" name="shareOption" checked>
+                        <label for="sharePublic">Public - Anyone with the link can view and submit</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="sharePrivate" name="shareOption">
+                        <label for="sharePrivate">Private - Only specific people can access</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates Modal -->
+    <div id="templatesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Form Templates</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="templates-grid">
+                    <div class="template-card" data-template="contact">
+                        <h3>Contact Form</h3>
+                        <p>Basic contact form with name, email, and message fields.</p>
+                    </div>
+                    <div class="template-card" data-template="registration">
+                        <h3>Registration Form</h3>
+                        <p>User registration with account details and preferences.</p>
+                    </div>
+                    <div class="template-card" data-template="survey">
+                        <h3>Survey Form</h3>
+                        <p>Customer feedback survey with multiple choice questions.</p>
+                    </div>
+                    <div class="template-card" data-template="event">
+                        <h3>Event Registration</h3>
+                        <p>Event sign-up form with scheduling and preferences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logic Modal -->
+    <div id="logicModal" class="modal">
+        <div class="modal-content logic-modal-content">
+            <div class="modal-header">
+                <h2>Conditional Logic</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Set up rules to show or hide this field based on conditions:</p>
+                
+                <div class="logic-section">
+                    <h3>When conditions are met:</h3>
+                    <select id="logicAction">
+                        <option value="show">Show this field</option>
+                        <option value="hide">Hide this field</option>
+                        <option value="require">Make this field required</option>
+                    </select>
+                </div>
+                
+                <div class="logic-conditions">
+                    <div class="logic-condition">
+                        <select class="condition-field">
+                            <option value="">Select a field</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                        
+                        <select class="condition-operator">
+                            <option value="equals">equals</option>
+                            <option value="not_equals">does not equal</option>
+                            <option value="contains">contains</option>
+                            <option value="not_contains">does not contain</option>
+                            <option value="greater_than">is greater than</option>
+                            <option value="less_than">is less than</option>
+                        </select>
+                        
+                        <input type="text" class="condition-value" placeholder="Value">
+                        
+                        <button class="remove-condition-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <button id="addConditionBtn" class="add-condition-btn">
+                    <i class="fas fa-plus"></i> Add Another Condition
+                </button>
+                
+                <div class="logic-footer">
+                    <select id="logicMatchType">
+                        <option value="all">All conditions must be met</option>
+                        <option value="any">Any condition can be met</option>
+                    </select>
+                    
+                    <div class="logic-actions">
+                        <button id="cancelLogicBtn" class="cancel-btn">Cancel</button>
+                        <button id="saveLogicBtn" class="save-btn">Save Rules</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/drag-drop.js"></script>
+    <script src="js/form-logic.js"></script>
+</body>
+</html>
